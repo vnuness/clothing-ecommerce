@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import FormInput from "../form-input/FormInput";
 import Button from "../button/ButtonComponent";
 import './SignInForm.scss'
@@ -12,11 +12,6 @@ const SignInForm = () => {
     const fetchRedirectResult = async () => {
       const auth = getAuth();
       const result = await getRedirectResult(auth);
-
-      if (result) {
-        const user = result.user;
-        await createUserDocumentFromAuth(user);
-      }
     };
 
     fetchRedirectResult();
@@ -49,9 +44,7 @@ const SignInForm = () => {
 
   const handleEmailAndPasswordSignIn = async () => {
     try {
-      const response = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log('success')
-
+      const { user } = await signInAuthUserWithEmailAndPassword(email, password);
 
     } catch (error) {
       if (error.code === 'auth/invalid-credential') {
