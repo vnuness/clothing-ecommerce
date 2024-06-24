@@ -1,4 +1,14 @@
-import { signInWithGooglePopup, createUserDocumentFromAuth } from '../../utils/firebase'
+import { useEffect } from 'react';
+import { getRedirectResult } from 'firebase/auth';
+
+import {
+  auth,
+  signInWithGooglePopup,
+  signInWithGoogleRedirect,
+  createUserDocumentFromAuth
+} from '../../utils/firebase'
+
+import SignUpForm from '../../components/sign-up-form/SignUpForm';
 
 const SignIn = () => {
 
@@ -13,6 +23,7 @@ const SignIn = () => {
       <button onClick={logGoogleUser}>
         Sign In with Google Account
       </button>
+      <SignUpForm />
     </div>
   )
 }
