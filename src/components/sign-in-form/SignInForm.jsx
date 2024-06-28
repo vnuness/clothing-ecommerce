@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import FormInput from "../form-input/FormInput";
 import Button from "../button/ButtonComponent";
 import './SignInForm.scss'
-import { signInAuthUserWithEmailAndPassword, signInWithGoogleRedirect, createUserDocumentFromAuth } from "../../utils/firebase";
+import { signInAuthUserWithEmailAndPassword, signInWithGoogleRedirect } from "../../utils/firebase";
 import { getRedirectResult, getAuth } from "firebase/auth";
 
 
@@ -44,7 +44,7 @@ const SignInForm = () => {
 
   const handleEmailAndPasswordSignIn = async () => {
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+      await signInAuthUserWithEmailAndPassword(email, password);
 
     } catch (error) {
       if (error.code === 'auth/invalid-credential') {
