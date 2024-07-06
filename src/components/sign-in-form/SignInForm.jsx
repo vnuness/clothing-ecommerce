@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import FormInput from "../form-input/FormInput";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/ButtonComponent";
 import './SignInForm.scss'
-import { signInAuthUserWithEmailAndPassword, signInWithGooglePopup } from "../../utils/firebase";
 import { getRedirectResult, getAuth } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { emailSignInStart, googleSignInStart } from "../../store/user/user.action";
 
 
 const SignInForm = () => {
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchRedirectResult = async () => {
@@ -32,29 +35,27 @@ const SignInForm = () => {
     setFormFields({ ...formFields, [name]: value })
   }
 
+  const resetFormFields = () => {
+    setFormFields({
+      email: '',
+      password: ''
+    })
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     try {
-      handleEmailAndPasswordSignIn();
+      dispatch(emailSignInStart(email, password));
+      resetFormFields();
     } catch (error) {
 
-    }
-  }
-
-  const handleEmailAndPasswordSignIn = async () => {
-    try {
-      await signInAuthUserWithEmailAndPassword(email, password);
-
-    } catch (error) {
-      if (error.code === 'auth/invalid-credential') {
-        alert('Invalid credentials!!')
-      }
     }
   }
 
   const signInWithGoogle = () => {
-    signInWithGooglePopup();
+    dispatch(googleSignInStart());
+    // signInWithGooglePopup();
   }
 
   return (
